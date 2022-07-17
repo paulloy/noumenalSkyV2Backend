@@ -1,39 +1,40 @@
 package com.noumenalSky.noumenalSky.controllers;
 
-import com.noumenalSky.noumenalSky.models.AstroObject;
-import com.noumenalSky.noumenalSky.repositories.AstroObjectRepository;
-import com.noumenalSky.noumenalSky.repositories.CharacteristicRepository;
+import com.noumenalSky.noumenalSky.repositories.ObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/objects")
 public class AstroObjectController {
 
     @Autowired
-    private AstroObjectRepository astroObjectRepository;
-    @Autowired
-    private CharacteristicRepository characteristicRepository;
+    private ObjectRepository objectRepository;
 
-    @GetMapping("/astroObjects")
-    public List<AstroObject> getAllAstroObjects() {
-        return astroObjectRepository.findAll();
+    @GetMapping
+    public List<Object> getAllObjects() {
+        return objectRepository.findAll();
     }
 
-    @GetMapping("/astroObjects/{id}")
-    public Optional<AstroObject> getOneAstroObject(
-            @PathVariable(value = "id")
-            Long astroObjectId) {
-        return astroObjectRepository.findById(astroObjectId);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Object> getById(@PathVariable(value = "id") Long id) {
+//        Optional<Object> object = objectRepository.findById(id);
+//
+//        if (object.isPresent()) {
+//            return ResponseEntity.ok().body(object.get());
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
-    @PostMapping("/astroObjects")
-    public AstroObject addAstroObject(@RequestBody AstroObject astroObject) {
-        // Destructure characteristics and save each new one created.
-        return astroObjectRepository.save(astroObject);
+    @PostMapping
+    public Object saveObject(@Validated @RequestBody Object object) {
+        return objectRepository.save(object);
     }
 }

@@ -1,44 +1,36 @@
 package com.noumenalSky.noumenalSky.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "astroObject")
+@Table(name = "astrophysics_objects")
 public class AstroObject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(name = "objectType", nullable = false, length = 20)
-    private String objectType;
-    @Column(name = "name", nullable = false, length = 20)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(name = "name", nullable = false, length = 12)
     private String name;
-    @Column(name = "description", nullable = false, length = 280)
-    private String description;
-    @Column(name = "nameOrigin", nullable = true, length = 280)
-    private String nameOrigin;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Characteristic> characteristics;
+    @Column(name = "type", nullable = false, length = 30)
+    private String type;
 
-    public AstroObject() {}
+    @Column(name = "image_address", length = 256)
+    private String imageAddress;
 
-    public AstroObject(String objectType,
-                       String name,
-                       String description,
-                       String nameOrigin,
-                       List<Characteristic> characteristics) {
-        this.objectType = objectType;
+    public AstroObject() {
+    }
+
+    public AstroObject(String name, String type, String imageAddress) {
         this.name = name;
-        this.description = description;
-        this.nameOrigin = nameOrigin;
-        this.characteristics = characteristics;
+        this.type = type;
+        this.imageAddress = imageAddress;
     }
 }
