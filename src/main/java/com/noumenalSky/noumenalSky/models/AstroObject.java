@@ -5,16 +5,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
-@Table(name = "astrophysics_objects")
+@Table(name = "astro_object")
 public class AstroObject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(name = "name", nullable = false, length = 12)
     private String name;
@@ -22,15 +24,13 @@ public class AstroObject {
     @Column(name = "type", nullable = false, length = 30)
     private String type;
 
-    @Column(name = "image_address", length = 256)
-    private String imageAddress;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "astro_object_id")
+    private List<Property> properties;
 
-    public AstroObject() {
-    }
 
     public AstroObject(String name, String type, String imageAddress) {
         this.name = name;
         this.type = type;
-        this.imageAddress = imageAddress;
     }
 }

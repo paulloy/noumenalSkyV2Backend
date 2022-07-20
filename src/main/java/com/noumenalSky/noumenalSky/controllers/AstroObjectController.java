@@ -1,40 +1,34 @@
 package com.noumenalSky.noumenalSky.controllers;
 
-import com.noumenalSky.noumenalSky.repositories.ObjectRepository;
+import com.noumenalSky.noumenalSky.models.AstroObject;
+import com.noumenalSky.noumenalSky.repositories.AstroObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/objects")
+@RequestMapping("/api")
 public class AstroObjectController {
 
     @Autowired
-    private ObjectRepository objectRepository;
+    private AstroObjectRepository astroObjectRepository;
 
-    @GetMapping
-    public List<Object> getAllObjects() {
-        return objectRepository.findAll();
+    @GetMapping("/objects")
+    public ResponseEntity<List<AstroObject>> getAllAstroObjects() {
+        List<AstroObject> astroObjects = astroObjectRepository.findAll();
+
+        return new ResponseEntity<>(astroObjects, HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Object> getById(@PathVariable(value = "id") Long id) {
-//        Optional<Object> object = objectRepository.findById(id);
-//
-//        if (object.isPresent()) {
-//            return ResponseEntity.ok().body(object.get());
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
-    @PostMapping
-    public Object saveObject(@Validated @RequestBody Object object) {
-        return objectRepository.save(object);
+    @PostMapping("/objects")
+    public ResponseEntity<AstroObject> createObject(@RequestBody AstroObject object) {
+        AstroObject astroObject = astroObjectRepository.save(object);
+        return new ResponseEntity<>(astroObject, HttpStatus.OK);
     }
 }
