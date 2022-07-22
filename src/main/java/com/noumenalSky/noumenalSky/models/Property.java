@@ -24,8 +24,11 @@ public class Property {
     @Column(name = "name", nullable = false, length = 12)
     private String name;
 
+    @Column(name = "type", nullable = false, length = 30)
+    private String type;
+
     @Column(name = "value", nullable = false, length = 5)
-    private int value;
+    private double value;
 
     @Column(name = "magnitude")
     private byte magnitude;
