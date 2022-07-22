@@ -1,5 +1,8 @@
 package com.noumenalSky.noumenalSky.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "astro_object_property")
 public class Property {
@@ -20,8 +24,8 @@ public class Property {
     @Column(name = "name", nullable = false, length = 12)
     private String name;
 
-    @Column(name = "value", nullable = false, length = 6)
-    private String value;
+    @Column(name = "value", nullable = false, length = 5)
+    private int value;
 
     @Column(name = "magnitude")
     private byte magnitude;
@@ -29,10 +33,10 @@ public class Property {
     @Column(name = "unit", length = 12)
     private String unit;
 
-    public Property(String name, String value, byte magnitude, String unit) {
-        this.name = name;
-        this.value = value;
-        this.magnitude = magnitude;
-        this.unit = unit;
-    }
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    private AstroObject astroObject;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private DataReference dataReference;
 }

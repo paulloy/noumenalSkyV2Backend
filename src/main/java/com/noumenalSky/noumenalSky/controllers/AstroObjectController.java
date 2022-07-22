@@ -36,7 +36,9 @@ public class AstroObjectController {
     }
 
     @PostMapping()
-    public ResponseEntity<AstroObject> createObject(@RequestBody AstroObject object) {
+    public ResponseEntity<AstroObject> createObject(
+            @RequestBody AstroObject object
+    ) {
         AstroObject astroObject = astroObjectRepository.save(object);
         return new ResponseEntity<>(astroObject, HttpStatus.OK);
     }
